@@ -7,6 +7,23 @@ export class UserRepository {
       data,
     });
   }
+
+  async findManyPaginated(skip: number, take: number) {
+    const where: Prisma.UserWhereInput = { isDeleted: false };
+    
+    // Optimize query by running count and fetch in parallel
+    const [totalRecords, users] = await prisma.$transaction([
+      prisma.user.count({ where }),
+      prisma.user.findMany({
+        where,
+        skip,
+        take,
+        orderBy: { createdAt: 'desc' },
+      }),
+    ]);
+
+    return { totalRecords, users };
+  }
 }
 
 export const userRepository = new UserRepository();

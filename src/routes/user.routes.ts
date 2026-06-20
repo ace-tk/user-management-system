@@ -10,4 +10,8 @@ router.post('/', validate(createUserSchema), (req, res, next) => {
   userController.createUser(req, res).catch(next);
 });
 
+router.get('/', (req, res, next) => {
+  userController.getUsers(req, res).catch(next);
+});
+
 export default router;

@@ -8,6 +8,20 @@ export class UserService {
     // Note: Validation is explicitly skipped per requirements.
     return this.repo.create(data);
   }
+
+  async getUsersPaginated(page: number, limit: number) {
+    const skip = (page - 1) * limit;
+    
+    const { totalRecords, users } = await this.repo.findManyPaginated(skip, limit);
+    const totalPages = Math.ceil(totalRecords / limit);
+
+    return {
+      users,
+      totalRecords,
+      totalPages,
+      currentPage: page,
+    };
+  }
 }
 
 export const userService = new UserService(userRepository);
