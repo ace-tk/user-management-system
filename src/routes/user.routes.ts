@@ -18,4 +18,8 @@ router.put('/:id', validate(updateUserSchema), (req, res, next) => {
   userController.updateUser(req, res).catch(next);
 });
 
+router.delete('/:id', (req, res, next) => {
+  userController.deleteUser(req, res).catch(next);
+});
+
 export default router;

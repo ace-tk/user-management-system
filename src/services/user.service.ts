@@ -32,6 +32,16 @@ export class UserService {
 
     return this.repo.update(id, data);
   }
+
+  async deleteUser(id: string): Promise<void> {
+    const user = await this.repo.findById(id);
+
+    if (!user || user.isDeleted) {
+      throw new Error('User not found');
+    }
+
+    await this.repo.softDelete(id);
+  }
 }
 
 export const userService = new UserService(userRepository);

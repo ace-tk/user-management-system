@@ -73,6 +73,29 @@ export class UserController {
       );
     }
   }
+
+  async deleteUser(req: Request, res: Response) {
+    try {
+      const id = req.params.id as string;
+
+      await userService.deleteUser(id);
+
+      return sendResponse(res, 200, true, 'User deleted successfully');
+    } catch (error: any) {
+      if (error.message === 'User not found') {
+        return sendResponse(res, 404, false, 'User not found');
+      }
+
+      return sendResponse(
+        res,
+        500,
+        false,
+        'Failed to delete user',
+        undefined,
+        error.message || 'Internal Server Error'
+      );
+    }
+  }
 }
 
 export const userController = new UserController();
