@@ -28,3 +28,5 @@ export const createUserSchema = z.object({
   
   permanentAddress: z.string().min(10, 'Permanent address must be at least 10 characters long'),
 });
+
+export const updateUserSchema = createUserSchema.partial();

@@ -49,6 +49,30 @@ export class UserController {
       );
     }
   }
+
+  async updateUser(req: Request, res: Response) {
+    try {
+      const id = req.params.id as string;
+      const userData: Prisma.UserUpdateInput = req.body;
+
+      const user = await userService.updateUser(id, userData);
+
+      return sendResponse(res, 200, true, 'User updated successfully', user);
+    } catch (error: any) {
+      if (error.message === 'User not found') {
+        return sendResponse(res, 404, false, 'User not found');
+      }
+
+      return sendResponse(
+        res,
+        500,
+        false,
+        'Failed to update user',
+        undefined,
+        error.message || 'Internal Server Error'
+      );
+    }
+  }
 }
 
 export const userController = new UserController();

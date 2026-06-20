@@ -22,6 +22,16 @@ export class UserService {
       currentPage: page,
     };
   }
+
+  async updateUser(id: string, data: Prisma.UserUpdateInput): Promise<User> {
+    const user = await this.repo.findById(id);
+    
+    if (!user || user.isDeleted) {
+      throw new Error('User not found');
+    }
+
+    return this.repo.update(id, data);
+  }
 }
 
 export const userService = new UserService(userRepository);

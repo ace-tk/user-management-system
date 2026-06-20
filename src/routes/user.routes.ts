@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { userController } from '../controllers/user.controller';
 import { validate } from '../middlewares/validate.middleware';
-import { createUserSchema } from '../validations/user.validation';
+import { createUserSchema, updateUserSchema } from '../validations/user.validation';
 
 const router = Router();
 
@@ -12,6 +12,10 @@ router.post('/', validate(createUserSchema), (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   userController.getUsers(req, res).catch(next);
+});
+
+router.put('/:id', validate(updateUserSchema), (req, res, next) => {
+  userController.updateUser(req, res).catch(next);
 });
 
 export default router;
