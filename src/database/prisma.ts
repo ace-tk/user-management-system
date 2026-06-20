@@ -8,8 +8,7 @@ declare global {
 }
 
 const createPrismaClient = () => {
-  const pool = mariadb.createPool(process.env.DATABASE_URL!);
-  const adapter = new PrismaMariaDb(pool);
+  const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
   return new PrismaClient({ adapter });
 };
 
