@@ -12,9 +12,22 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String    @id @default(uuid())
+  name             String
+  email            String    @unique
+  primaryMobile    String    @unique
+  secondaryMobile  String?
+  aadhaar          String    @unique @db.VarChar(12)
+  pan              String    @unique @db.VarChar(10)
+  dateOfBirth      DateTime  @db.Date
+  placeOfBirth     String?
+  currentAddress   String    @db.Text
+  permanentAddress String    @db.Text
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  isDeleted        Boolean   @default(false)
+  deletedAt        DateTime?
+
+  @@index([isDeleted])
 }
