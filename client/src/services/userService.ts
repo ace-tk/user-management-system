@@ -31,15 +31,23 @@ export interface ApiResponse<T> {
 }
 
 export const userService = {
-  getUsers: (page = 1, limit = 10) =>
-    api.get<ApiResponse<PaginatedResponse>>(`/users?page=${page}&limit=${limit}`),
+  getUsers: async (page = 1, limit = 10): Promise<PaginatedResponse> => {
+    const response = await api.get<any, ApiResponse<PaginatedResponse>>(`/users?page=${page}&limit=${limit}`);
+    return response.data!;
+  },
 
-  createUser: (data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) =>
-    api.post<ApiResponse<User>>('/users', data),
+  createUser: async (data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User> => {
+    const response = await api.post<any, ApiResponse<User>>('/users', data);
+    return response.data!;
+  },
 
-  updateUser: (id: string, data: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>) =>
-    api.put<ApiResponse<User>>(`/users/${id}`, data),
+  updateUser: async (id: string, data: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>): Promise<User> => {
+    const response = await api.put<any, ApiResponse<User>>(`/users/${id}`, data);
+    return response.data!;
+  },
 
-  deleteUser: (id: string) =>
-    api.delete<ApiResponse<null>>(`/users/${id}`),
+  deleteUser: async (id: string): Promise<null> => {
+    const response = await api.delete<any, ApiResponse<null>>(`/users/${id}`);
+    return response.data || null;
+  },
 };

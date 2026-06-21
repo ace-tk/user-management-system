@@ -17,16 +17,12 @@ const Users = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await userService.getUsers(page, limit);
-      if (response.data.success && response.data.data) {
-        setUsers(response.data.data.users);
-        setTotalPages(response.data.data.totalPages);
-        setTotalRecords(response.data.data.totalRecords);
-      } else {
-        setError(response.data.message || 'Failed to fetch users');
-      }
+      const data = await userService.getUsers(page, limit);
+      setUsers(data.users);
+      setTotalPages(data.totalPages);
+      setTotalRecords(data.totalRecords);
     } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'An error occurred while fetching users');
+      setError(err.message || 'An error occurred while fetching users');
     } finally {
       setIsLoading(false);
     }
@@ -43,7 +39,7 @@ const Users = () => {
         // Refresh the current page after successful deletion
         fetchUsers(currentPage);
       } catch (err: any) {
-        alert(err.response?.data?.message || err.message || 'Failed to delete user');
+        alert(err.message || 'Failed to delete user');
       }
     }
   };

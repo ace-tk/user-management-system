@@ -70,13 +70,12 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData, onSuccess }) =>
         onSuccess();
       }
     } catch (error: any) {
-      // Handle standard error message structure from our backend
-      setSubmitError(error.response?.data?.message || error.message || 'An error occurred while saving the user');
+      // Handle standard error message structure from our custom ApiError interceptor
+      setSubmitError(error.message || 'An error occurred while saving the user');
       
-      // Specifically handle Zod validation errors array sent from backend
-      if (error.response?.data?.error && Array.isArray(error.response.data.error)) {
-        const backendErrors = error.response.data.error;
-        const messages = backendErrors.map((e: any) => `${e.field}: ${e.message}`).join(' | ');
+      // Specifically handle validation errors array sent from backend
+      if (error.validationErrors && Array.isArray(error.validationErrors)) {
+        const messages = error.validationErrors.map((e: any) => `${e.field}: ${e.message}`).join(' | ');
         setSubmitError(`Validation Error: ${messages}`);
       }
     } finally {
