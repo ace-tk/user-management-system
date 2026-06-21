@@ -50,6 +50,27 @@ export class UserController {
     }
   }
 
+  async getUser(req: Request, res: Response) {
+    try {
+      const id = req.params.id as string;
+      const user = await userService.getUserById(id);
+      return sendResponse(res, 200, true, 'User retrieved successfully', user);
+    } catch (error: any) {
+      if (error.message === 'User not found') {
+        return sendResponse(res, 404, false, 'User not found');
+      }
+
+      return sendResponse(
+        res,
+        500,
+        false,
+        'Failed to retrieve user',
+        undefined,
+        error.message || 'Internal Server Error'
+      );
+    }
+  }
+
   async updateUser(req: Request, res: Response) {
     try {
       const id = req.params.id as string;

@@ -14,6 +14,10 @@ router.get('/', (req, res, next) => {
   userController.getUsers(req, res).catch(next);
 });
 
+router.get('/:id', (req, res, next) => {
+  userController.getUser(req, res).catch(next);
+});
+
 router.put('/:id', validate(updateUserSchema), (req, res, next) => {
   userController.updateUser(req, res).catch(next);
 });

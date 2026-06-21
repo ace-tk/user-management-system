@@ -41,6 +41,11 @@ export const userService = {
     return response.data!;
   },
 
+  getUserById: async (id: string): Promise<User> => {
+    const response = await api.get<any, ApiResponse<User>>(`/users/${id}`);
+    return response.data!;
+  },
+
   updateUser: async (id: string, data: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>): Promise<User> => {
     const response = await api.put<any, ApiResponse<User>>(`/users/${id}`, data);
     return response.data!;

@@ -23,6 +23,16 @@ export class UserService {
     };
   }
 
+  async getUserById(id: string): Promise<User> {
+    const user = await this.repo.findById(id);
+
+    if (!user || user.isDeleted) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  }
+
   async updateUser(id: string, data: Prisma.UserUpdateInput): Promise<User> {
     const user = await this.repo.findById(id);
     
