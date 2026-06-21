@@ -166,6 +166,7 @@ npm test
 
 4. **Testing and Debugging**
    Writing API tests and troubleshooting integration issues highlighted the importance of validating application behavior early. It also improved my ability to debug problems across the frontend, backend, and database layers.
+
 ## 🔮 Future Improvements
 
 *   **Authentication**: Implement JWT-based auth (Login/Register) to secure the API endpoints.
