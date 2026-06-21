@@ -135,18 +135,37 @@ The backend includes a comprehensive integration test suite utilizing Jest and S
 # From the root directory
 npm test
 ```
-
 ## 🧗 Challenges Faced
 
-1.  **Port Conflicts**: During development on macOS, port 5000 was suddenly hijacked by the native `ControlCenter` (AirPlay Receiver) service, causing silent API failures and CORS issues. I learned how to debug port bindings using `lsof` and successfully reconfigured the backend to default to port `8000`.
-2.  **Date Handling Across Boundaries**: Prisma returns database dates as ISO strings (`1990-01-01T00:00:00.000Z`), but HTML5 `<input type="date">` exclusively requires the `YYYY-MM-DD` format. I had to implement an interception layer in the frontend to gracefully parse and format dates before injecting them into `react-hook-form`'s state.
+1. **Prisma Configuration & Database Connectivity**
+
+   One of the biggest challenges was getting Prisma configured correctly with MySQL. During development, I ran into issues related to datasource configuration, environment variables, and Prisma client generation. Debugging these problems helped me better understand how Prisma establishes database connections and manages schema changes.
+
+2. **Frontend–Backend Communication**
+
+   While integrating the React frontend with the backend APIs, I encountered situations where the frontend was unable to retrieve data even though the backend appeared to be running correctly. Troubleshooting involved verifying API routes, Axios configuration, environment variables, CORS settings, and inspecting network requests through browser developer tools.
+
+3. **Date Handling Across Different Layers**
+
+   Handling the Date of Birth field required extra attention because dates are represented differently across HTML forms, TypeScript, Prisma, and MySQL. Ensuring consistent formatting during both creation and update operations was an interesting challenge.
+
+4. **Writing Reliable Automated Tests**
+
+   Setting up integration tests for the APIs required creating isolated test scenarios while ensuring that test executions did not interfere with development data. This highlighted the importance of having repeatable and reliable test cases when building production-quality applications.
 
 ## 🧠 Key Learnings
 
-1.  **Layered Architecture**: Transitioning from "fat controllers" to a strict Controller-Service-Repository pattern was a game changer. It made writing the Jest integration tests incredibly straightforward because the HTTP layer is completely decoupled from the database logic.
-2.  **Prisma Transactions**: I learned how to optimize pagination endpoints by wrapping `prisma.user.count()` and `prisma.user.findMany()` inside a `prisma.$transaction`. This executes both queries concurrently, cutting database latency in half.
-3.  **Axios Interceptors**: By implementing a centralized Axios Response Interceptor on the frontend, I was able to automatically unwrap standard API payloads (`response.data.data`) and normalize backend Zod validation errors globally, drastically reducing boilerplate in the React components.
+1. **Layered Architecture**
+   Working with a Controller-Service-Repository structure reinforced the importance of separating responsibilities across different layers. By keeping business logic in services and database operations in repositories, the code became easier to maintain, test, and extend.
 
+2. **Database Operations with Prisma**
+   Gained deeper practical experience using Prisma ORM for schema management, database migrations, and efficient data retrieval while working with MySQL. Implementing CRUD operations and pagination helped me understand how Prisma simplifies database interactions while maintaining type safety.
+
+3. **Frontend–Backend Integration**
+   Improved understanding of how React applications communicate with backend APIs, including request handling, response processing, and error management. Integrating forms, API calls, and database-backed data helped strengthen my full-stack development workflow.
+
+4. **Testing and Debugging**
+   Writing API tests and troubleshooting integration issues highlighted the importance of validating application behavior early. It also improved my ability to debug problems across the frontend, backend, and database layers.
 ## 🔮 Future Improvements
 
 *   **Authentication**: Implement JWT-based auth (Login/Register) to secure the API endpoints.
