@@ -10,13 +10,13 @@ interface Config {
 }
 
 const getConfig = (): Config => {
-  const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+  const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
   const NODE_ENV = process.env.NODE_ENV || 'development';
   const DATABASE_URL = process.env.DATABASE_URL;
 
   // Validate required variables
   if (!process.env.PORT) {
-    console.warn('⚠️  PORT environment variable is not set. Defaulting to 3000.');
+    console.warn('⚠️  PORT environment variable is not set. Defaulting to 8000.');
   }
 
   if (!DATABASE_URL) {

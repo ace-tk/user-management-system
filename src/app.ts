@@ -5,7 +5,10 @@ import userRoutes from './routes/user.routes';
 const app: Application = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 app.use(express.json());
 
 // Health Check Endpoint
