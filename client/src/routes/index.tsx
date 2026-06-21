@@ -1,5 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
-import Home from '../pages/Home';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Users from '../pages/Users';
 import AddUser from '../pages/AddUser';
 import EditUser from '../pages/EditUser';
@@ -7,7 +6,7 @@ import EditUser from '../pages/EditUser';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <Navigate to="/users" replace />,
   },
   {
     path: '/users',
